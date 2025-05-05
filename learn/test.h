@@ -15,7 +15,7 @@
 #endif
 constexpr static auto XMAKE = __XMAKE__;
 
-int process_run(const std::string& cmd, const std::string& proj, const std::string& log);
+int cmd_run(const std::string& cmd, const std::string& proj, const std::string& log);
 
 template<typename T>
 static inline bool test_exercise(const T& id, const std::string& log) {
@@ -32,7 +32,7 @@ static inline bool test_exercise(const T& id, const std::string& log) {
 
     os << "\x1b[34m" << str << " testing" << "\x1b[0m" << std::endl
        << "==================" << std::endl;
-    auto pass = process_run("", str, log) == EXIT_SUCCESS && process_run("run", str, log) == EXIT_SUCCESS;
+    auto pass = cmd_run("", str, log) == EXIT_SUCCESS && cmd_run("run", str, log) == EXIT_SUCCESS;
     os << "=================" << std::endl
        << "\x1b[" << (pass ? 32 : 31) << 'm' << str << (pass ? " passed" : " failed") << "\x1b[0m" << std::endl
        << std::endl;
