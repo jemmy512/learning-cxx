@@ -2,12 +2,11 @@
 
 #include <iostream>
 
-#define ASSERT_ARGC_X(a, b, c, d, e, f, g, h, i, N, ...) N
-
-// on macOS Clang when use ASSERT(1 == 1) (with no extra arguments),
-// the variadic arguments expansion is causing unexpected behavior.
-#define ASSERT_ARGC(...) \
-    ASSERT_ARGC_X(dummy, ## __VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+// compilers treat empty __VA_ARGS__ differently, c++20 __VA_OPT__ solves it
+// _9, _8, _7, _6, _5, _4, _3, _2, _1, N, ...) N
+// _x, xx, 07, 06, 05, 04, 03, 02, 01, 0
+#define ASSERT_ARGC_X(_9, _8, _7, _6, _5, _4, _3, _2, _1, N, ...) N
+#define ASSERT_ARGC(...) ASSERT_ARGC_X(_x, __VA_OPT__(,) __VA_ARGS__, 07, 06, 5, 4, 3, 2, 1, 0)
 #define MAX_ARGC        2
 
 #define ASSERT_ARGV(argc, ...) \
