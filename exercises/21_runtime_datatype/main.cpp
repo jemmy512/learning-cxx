@@ -28,7 +28,7 @@ TaggedUnion sigmoid_dyn(TaggedUnion x) {
     return ans;
 }
 
-// ---- 不要修改以下代码 ----
+// ---- Do Not Modify Following Code ----
 int main(int argc, char **argv) {
     TaggedUnion xf{DataType::Float};
     xf.f = 5.f;

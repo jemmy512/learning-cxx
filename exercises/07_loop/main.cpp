@@ -13,7 +13,7 @@ static unsigned long long fibonacci(int i) {
     return cache[i];
 }
 
-// ---- 不要修改以下代码 ----
+// ---- Do Not Modify Following Code ----
 int main(int argc, char **argv) {
     ASSERT(fibonacci(0) == 0, "fibonacci(0) should be 0");
     ASSERT(fibonacci(1) == 1, "fibonacci(1) should be 1");

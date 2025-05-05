@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
         {"", "", "", "", "", "", "", ""},
     };
 
-    // ---- 不要修改以下代码 ----
+    // ---- Do Not Modify Following Code ----
 
     for (auto i = 0; i < 3; ++i) {
         ASSERT(problems[i].size() == answers[i].size(), "wrong size");

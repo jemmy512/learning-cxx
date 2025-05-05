@@ -8,6 +8,9 @@ set_languages("cxx17")
 target("exercise00")
     add_files("00_hello_world/main.cpp")
 
+target("exercise00_hello_world")
+    add_files("00_hello_world/main.cpp")
+
 -- 变量与运算符
 target("exercise01")
     add_files("01_variable&add/main.cpp")
@@ -22,11 +25,17 @@ target("exercise03")
 
 -- static 关键字
 target("exercise04")
-    add_files("04_static/main.cpp")
+    add_files("04_key_static/main.cpp")
 
 -- constexpr 编译时常量和运算
-target("exercise05")
-    add_files("05_constexpr/main.cpp")
+target("exercise05_key_cast")
+    add_files("05_key_cast/main.cpp")
+
+target("exercise05_key_const")
+    add_files("05_key_const/main.cpp")
+
+target("exercise05_key_constexpr")
+    add_files("05_key_constexpr/main.cpp")
 
 -- 数组
 target("exercise06")
@@ -37,8 +46,14 @@ target("exercise07")
     add_files("07_loop/main.cpp")
 
 -- 指针
-target("exercise08")
+target("exercise08_pointer")
     add_files("08_pointer/main.cpp")
+
+target("exercise08_pointer_func")
+    add_files("08_pointer_func/main.cpp")
+
+target("exercise08_pointer_func")
+    add_files("08_pointer_smart/main.cpp")
 
 -- 枚举/联合体
 target("exercise09")
@@ -139,5 +154,8 @@ target("exercise32")
 -- std::accumulate
 target("exercise33")
     add_files("33_std_accumulate/main.cpp")
+
+target("exercise34")
+    add_files("34_c_string/main.cpp")
 
 -- TODO: lambda; deque; forward_list; fs; thread; mutex;

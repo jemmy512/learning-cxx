@@ -32,7 +32,7 @@ struct Tensor4D {
     }
 };
 
-// ---- 不要修改以下代码 ----
+// ---- Do Not Modify Following Code ----
 int main(int argc, char **argv) {
     {
         unsigned int shape[]{1, 2, 3, 4};

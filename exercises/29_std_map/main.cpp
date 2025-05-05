@@ -14,7 +14,7 @@ void set(std::map<k, v> &map, k key, v value) {
     // TODO: 实现函数
 }
 
-// ---- 不要修改以下代码 ----
+// ---- Do Not Modify Following Code ----
 int main(int argc, char **argv) {
     using namespace std::string_literals;
 

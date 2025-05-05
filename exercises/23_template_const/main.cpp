@@ -40,7 +40,7 @@ private:
     }
 };
 
-// ---- 不要修改以下代码 ----
+// ---- Do Not Modify Following Code ----
 int main(int argc, char **argv) {
     {
         unsigned int shape[]{2, 3, 4, 5};
