@@ -6,7 +6,8 @@
 // _9, _8, _7, _6, _5, _4, _3, _2, _1, N, ...) N
 // _x, xx, 07, 06, 05, 04, 03, 02, 01, 0
 #define ASSERT_ARGC_X(_9, _8, _7, _6, _5, _4, _3, _2, _1, N, ...) N
-#define ASSERT_ARGC(...) ASSERT_ARGC_X(_x, __VA_OPT__(,) __VA_ARGS__, 07, 06, 5, 4, 3, 2, 1, 0)
+#define ASSERT_ARGC(...) \
+    ASSERT_ARGC_X(_x, __VA_OPT__(,) __VA_ARGS__, 07, 06, 05, 04, 03, 02, 01, 00)
 #define MAX_ARGC        2
 
 #define ASSERT_ARGV(argc, ...) \
