@@ -1,4 +1,4 @@
-#include "../exercise.h"
+#include "../utils/assert.h"
 
 constexpr unsigned long long fibonacci(int i) {
     switch (i) {

@@ -1,5 +1,4 @@
-﻿#ifndef __TEST_H__
-#define __TEST_H__
+﻿#pragma once
 
 #include <filesystem>
 #include <mutex>
@@ -81,5 +80,3 @@ Log &Log::operator<<(const T& n) {
 
     return *this;
 }
-
-#endif// __TEST_H__

@@ -1,4 +1,4 @@
-#include "../exercise.h"
+#include "../utils/assert.h"
 
 // READ: `static` 关键字 <https://zh.cppreference.com/w/cpp/language/storage_duration>
 // THINK: 这个函数的两个 `static` 各自的作用是什么？

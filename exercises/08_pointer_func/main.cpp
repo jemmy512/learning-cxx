@@ -1,4 +1,4 @@
-﻿#include "../exercise.h"
+﻿#include "../utils/assert.h"
 
 // What does this declaration mean? Finish the definition
 int (*(*f[])()) () = {

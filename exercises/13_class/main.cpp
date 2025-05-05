@@ -1,4 +1,4 @@
-#include "../exercise.h"
+#include "../utils/assert.h"
 
 // C++ 中，`class` 和 `struct` 之间的**唯一区别**是
 // `class` 默认访问控制符是 `private`，

@@ -1,4 +1,4 @@
-#include "../exercise.h"
+#include "../utils/assert.h"
 
 struct Fibonacci {
     unsigned long long cache[128];

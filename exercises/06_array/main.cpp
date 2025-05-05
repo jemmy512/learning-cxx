@@ -1,4 +1,4 @@
-﻿#include "../exercise.h"
+﻿#include "../utils/assert.h"
 
 // READ: 数组 <https://zh.cppreference.com/w/cpp/language/array>
 
@@ -17,7 +17,7 @@ unsigned long long fibonacci(int i) {
 
 int main(int argc, char **argv) {
     // TODO: 为此 ASSERT 填写正确的值
-    ASSERT(sizeof(arr) == ?, "sizeof array is size of all its elements");
+    ASSERT(sizeof(arr) == 1, "sizeof array is size of all its elements");
     // ---- Do Not Modify Following Code ----
     ASSERT(fibonacci(2) == 1, "fibonacci(2) should be 1");
     ASSERT(fibonacci(20) == 6765, "fibonacci(20) should be 6765");

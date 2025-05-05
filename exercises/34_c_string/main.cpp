@@ -1,4 +1,4 @@
-﻿#include "../exercise.h"
+﻿#include "../utils/assert.h"
 
 // string.h : https://zh.cppreference.com/w/c/header/string
 
@@ -72,7 +72,7 @@ int main(int argc, char* *argv) {
         const char src[20] = "hello world";
         char dst[20] = {};
         char* ret = strncpy(dst, src, 5);
-        ASSERT(!strncmp(src, dst, 5) && !strcmp(ret, src, 5))
+        ASSERT(!strncmp(src, dst, 5) && !strcmp(ret, src, 5));
     }
 
     {

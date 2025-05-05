@@ -1,4 +1,4 @@
-﻿#include "../exercise.h"
+﻿#include "../utils/assert.h"
 #include <numeric>
 
 // READ: `std::accumulate` <https://zh.cppreference.com/w/cpp/algorithm/accumulate>
