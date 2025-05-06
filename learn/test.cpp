@@ -2,9 +2,9 @@
 
 namespace fs = std::filesystem;
 
-int cmd_run(const std::string& cmd, const std::string& proj, const std::string& log) {
+int run_cmd(const std::string& cmd, const std::string& tar, const std::string& log) {
     static const auto exercises = fs::absolute(fs::path(XMAKE) / "exercises");
-    auto command = std::string("xmake ") + cmd + " -P \"" + exercises.string() + "\" " + proj;
+    auto command = std::string("xmake ") + cmd + " -P \"" + exercises.string() + "\" " + tar;
     if (!log.empty()) {
         command += " >> ";
         command += log;

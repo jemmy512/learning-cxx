@@ -24,7 +24,8 @@
         if (!(COND)) { \
             std::cerr << "\x1b[31mAssertion failed at: " \
                 << __FILE__ << ":" <<__LINE__ << ": \x1b[0m" \
-                << std::endl << #COND << std::endl; \
+                << std::endl \
+                << #COND << std::endl; \
             ASSERT_ARGV(ASSERT_ARGC(__VA_ARGS__), __VA_ARGS__); \
             std::exit(1); \
         } \

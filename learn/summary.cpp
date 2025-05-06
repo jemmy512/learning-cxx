@@ -1,58 +1,84 @@
 ﻿#include "test.h"
 #include <atomic>
-#include <chrono>
-#include <cstring>
-#include <iomanip>
-#include <iostream>
-#include <numeric>
-#include <sstream>
 #include <thread>
-#include <vector>
+#include <queue>
+#include <algorithm>
 
-constexpr auto MAX_EXERCISE = 33;
+namespace fs = std::filesystem;
+
+using ExerciceCallback = std::function<void(const std::string& file)>;
+
+void for_exercises(const ExerciceCallback& cb) {
+    const auto exercises = fs::absolute(fs::path(XMAKE) / "exercises");
+
+    for (const auto& entry : fs::directory_iterator(exercises)) {
+        if (entry.is_directory()) {
+            cb(entry.path().filename().string());
+        }
+    }
+}
 
 int main(int argc, char **argv) {
-    if (argc == 1) {
+    if (argc == 2) {
         Log log{Console{}};
-        for (auto i = 0; i <= MAX_EXERCISE; ++i) {
-            log << i;
-        }
-        std::cout << std::accumulate(log.result.begin(), log.result.end(), 0, std::plus{}) << '/' << MAX_EXERCISE + 1 << " [";
-        for (auto b : log.result) {
-            std::cout << (b ? "\x1b[32m#\x1b[0m" : "\x1b[31mX\x1b[0m");
-        }
-        std::cout << ']' << std::endl;
+
+        for_exercises([&log](const auto& str) {
+            log << str;
+        });
+
         return EXIT_SUCCESS;
     }
-    if (argc == 2 && std::strcmp(argv[1], "--simple") == 0) {
-        auto concurrency = std::thread::hardware_concurrency();
-        if (concurrency == 0) {
-            concurrency = 1;
-        }
 
-        std::atomic_int k{0};
+    if (argc == 1) {
+        auto concurrency = std::max<int>(1, std::thread::hardware_concurrency());
+
+        std::mutex queueMutex;
+        std::queue<std::string> taskQueue;
+        std::atomic_int nrFileDone{0};
         std::vector<std::thread> threads;
         threads.reserve(concurrency);
 
+        for_exercises([&taskQueue](const auto& str) {
+            taskQueue.emplace(str);
+        });
+
         std::cout << "concurrency: " << concurrency << std::endl;
         Log log{Null{}};
-        for (auto i = 0u; i <= concurrency; ++i) {
-            threads.emplace_back([i, &log, &k] {
-                int j = k.fetch_add(1);
-                while (j <= MAX_EXERCISE) {
-                    std::printf("run %d at %d\n", j, i);
-                    log << j;
-                    j = k.fetch_add(1);
+
+        auto worker = [&log, &taskQueue, &queueMutex, &nrFileDone, files_total = taskQueue.size()](int tid) {
+            while(true) {
+                std::string file;
+                {
+                    std::lock_guard<std::mutex> guard(queueMutex);
+                    if (taskQueue.empty()) {
+                        break;
+                    }
+                    file = std::move(taskQueue.front());
+                    taskQueue.pop();
                 }
-            });
-        }
-        for (auto &thread : threads) {
-            thread.join();
+
+                std::printf("----------------\nTID[%d] processing: %s\n", tid, file.c_str());
+
+                log << file;
+
+                int done = nrFileDone.fetch_add(1) + 1;
+                std::printf("Progress: %d/%zu (%.1f%%)\n----------------\n\n",
+                    done, files_total,
+                    (100.0 * done) / files_total);
+            }
+        };
+
+        for (unsigned int i = 0; i < concurrency; ++i) {
+            threads.emplace_back(worker, i);
         }
 
-        std::cout << std::accumulate(log.result.begin(), log.result.end(), 0, std::plus{}) << '/' << MAX_EXERCISE + 1 << std::endl;
+        for (auto& thd : threads) {
+            thd.join();
+        }
+
         return EXIT_SUCCESS;
     }
     std::cerr << "Usage: xmake run summary [--simple]" << std::endl;
+
     return EXIT_FAILURE;
 }

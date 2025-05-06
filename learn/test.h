@@ -8,17 +8,17 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <type_traits>
 
 #ifndef __XMAKE__
-#define __XMAKE__ "XMAKE is not defined"
+#error "__XMAKE__ is not defined"
 #endif
-constexpr static auto XMAKE = __XMAKE__;
 
-int cmd_run(const std::string& cmd, const std::string& proj, const std::string& log);
+constexpr static inline auto XMAKE = __XMAKE__;
+
+int run_cmd(const std::string& cmd, const std::string& tar, const std::string& log);
 
 template<typename T>
-static inline bool test_exercise(const T& id, const std::string& log) {
+static inline bool run_test(const T& id, const std::string& log) {
     std::ofstream file;
     std::stringstream ss;
 
@@ -27,17 +27,21 @@ static inline bool test_exercise(const T& id, const std::string& log) {
     }
     std::ostream &os =(!log.empty()) ? file : std::cout;
 
-    ss << "exercise" << id;
+    ss << id;
     const auto str = ss.str();
 
     os << "\x1b[34m" << str << " testing" << "\x1b[0m" << std::endl
        << "==================" << std::endl;
-    auto pass = cmd_run("", str, log) == EXIT_SUCCESS && cmd_run("run", str, log) == EXIT_SUCCESS;
-    os << "=================" << std::endl
-       << "\x1b[" << (pass ? 32 : 31) << 'm' << str << (pass ? " passed" : " failed") << "\x1b[0m" << std::endl
-       << std::endl;
 
-    return pass;
+    auto pass = run_cmd("", str, log) == EXIT_SUCCESS && run_cmd("run", str, log) == EXIT_SUCCESS;
+
+    os << "=================" << std::endl
+       << "\x1b["
+       << (pass ? 32 : 31) << 'm' << str << (pass ? " passed" : " failed")
+       << "\x1b[0m"
+       << std::endl << std::endl;
+
+       return pass;
 }
 
 struct Console {};
@@ -58,7 +62,7 @@ Log &Log::operator<<(const T& n) {
     bool pass = false;
 
     if (std::holds_alternative<Console>(this->dst)) {
-        pass = test_exercise(n, {});
+        pass = run_test(n, {});
     } else if (std::holds_alternative<Null>(this->dst)) {
 #if defined(_WIN32)
         const std::string null = "nul";
@@ -67,10 +71,10 @@ Log &Log::operator<<(const T& n) {
 #else
 #error "Unsupported platform"
 #endif
-        pass = test_exercise(n, null);
+        pass = run_test(n, null);
     } else {
         const auto path = fs::absolute(fs::path(XMAKE) / "log" / std::get<fs::path>(this->dst));
-        pass = test_exercise(n, path.string());
+        pass = run_test(n, path.string());
     }
 
     {
